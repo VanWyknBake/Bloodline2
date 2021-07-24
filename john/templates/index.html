@@ -1,0 +1,456 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- ===== CSS ===== -->
+        <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+
+        <link href="https://fonts.googleapis.com/css2?family=Merienda&family=Nosifer&family=Ruthie&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap" rel="stylesheet">
+
+        <!-- ===== BOX ICONS ===== -->
+        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+        <title>Portfolio responsive complete</title>
+    </head>
+    <body>
+        <!--===== HEADER =====-->
+        <header class="l-header">
+            <nav class="nav bd-grid">
+                
+                <div>
+                    <a href="#" class="nav__logo">{{ home.name }}</a>
+                    
+                </div>
+                
+
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list">
+                        <li class="nav__item"><a href="#home" class="nav__link active"><i class="bx bx-home"></i> Home</a></li>
+                        
+                        
+                        {% if user.is_active %}
+                        <li class="nav__item"><a href="#news" class="nav__link"><i class="bx bx-news"></i> News</a></li>
+                        <li class="nav__item"><a href="#tour" class="nav__link"><i class="bx bx-notepad"></i> Tournaments</a></li>
+                        
+                        
+                       
+                        {% else %}
+                        <li class="nav__item"><a href="#streamers" class="nav__link"><i class="bx bx-video"></i> Streamers</a></li>
+
+                        <li class="nav__item"><a href="#about" class="nav__link"><i class="bx bx-question-mark"></i> About</a></li>
+                        
+                        
+                        {% endif %}
+                        <li class="nav__item"><a href="#videos" class="nav__link"><i class="bx bxl-youtube"></i> Videos</a></li>
+                        <li class="nav__item"><a href="#results" class="nav__link"><i class="bx bx-id-card"></i> Our Results</a></li>
+
+
+                        {% if not user.is_active %}
+                        <li class="nav__item"><a href="#contact" class="nav__link"><i class="bx bx-envelope"></i> Contact</a></li>
+
+                        <li class="nav__item"><a href="{% url 'account_login' %}" class="nav__link"><i class="bx bx-log-in"></i> Log In</a></li>
+                        {% endif %}
+                        {% if user.is_active %}
+                        <li class="nav__item"><a href="{% url 'account_logout' %}" class="nav__link"><i class="bx bx-log-in"></i> Log Out</a></li>
+
+                        {% endif %}
+                        <a href="#store" class="nav__logo">&nbsp;&nbsp;&nbsp; -<i class='bx bx-cart bx-burst'></i></a>
+
+                    </ul>
+                </div>
+
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class='bx bx-droplet bx-flashing'></i>
+                </div>
+            </nav>
+        </header>
+
+        <main class="l-main">
+            <!--===== HOME =====-->
+            <section class="home" id="home">
+                <div class="home__container bd-grid">
+                    <h1 class="home__title"><span>{{ home.greetings_1 }}</span><br></h1>
+                    
+
+                    <div class="home__scroll" style="z-index:10;">
+                    {% if user.is_active  %}
+                        <a href="#news" class="home__scroll-link"><i class='bx bx-up-arrow-circle bx-fade-up' ></i></a>
+                    {% else %}
+                        <a href="#about" class="home__scroll-link"><i class='bx bx-up-arrow-circle bx-fade-up' ></i></a>
+                    {% endif %}
+                    </div>
+                    {% if user.is_active %}
+                    <br>
+                    <br>
+                    <p class="about__text" style=" color: white; z-index:10; text-align:center;font-family:'Monsterat';text-shadow: 0 3px 2px var(--dark-color);">&nbsp;Welcome {{ user.username }}</p>
+                    {% else %}
+                    <p class="about__text" style=" color: white; z-index:10; text-align:center;font-family:'Monsterat'; text-shadow: 0 3px 2px var(--dark-color);">Welcome</p>
+                    
+                    {% endif %}
+
+                    <img src="{{ home.picture.url }}" alt="" class="home__img">
+                </div>
+            </section>
+
+    {% if not user.is_active %}
+            <!--STREAMERS-->
+            <section class="portfolio section" id="streamers">
+                <h2 class="section-title">Streamers and Sponsors</h2>
+            
+            
+                <div class="portfolio__container bd-grid">
+            
+                    {% for streamer in streamers %}
+            
+                    <div class="portfolio__img">
+                        <img src="{{ streamer.image.url }}" alt="">
+            
+                        <div class="portfolio__link">
+                            <a href="{{ streamer.link }}" class="portfolio__link-name">Visit Page</a>
+                        </div>
+                    </div>
+            
+                    {% endfor %}
+            
+                </div>
+            
+            </section>
+        
+            
+            <!--===== ABOUT =====-->
+            <section class="about section" id="about">
+                <h2 class="section-title">About</h2>
+
+                <div class="about__container bd-grid">
+                    <div class="about__img">
+                        <!-- <img src="{% static 'assets/img/perfil.png' %}" alt=""> -->
+                        <img src="{{ about.profile_img.url }}" alt="">
+                    </div>
+
+                    <div>
+                        <h2 class="about__subtitle">{{ about.heading }}</h2>
+                        <span class="about__profession">{{ about.career }}</span>
+                        <p class="about__text">{{ about.description }}</p>
+
+                        
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+
+            {% if user.is_active %}
+
+            <!-- NEWS -->
+            {% if user.is_active %}
+            <section class="about section" id="news">
+                <h2 class="section-title">News</h2>
+                {% for n in news %}
+                <div class="about__container bd-grid">
+                    <div class="about__img">
+                      
+                        <img src="{{ n.img.url }}" alt="">
+                    </div>
+
+                    <div>
+                        <h2 class="about__subtitle">{{ n.topic }}</h2>
+                        
+                        <p class="about__text">{{ n.content }}</p>
+                        <p class="about__text"><small><i>{{ n.updated }}</i></small></p>
+
+                        <div class="about__social">
+
+                            {% for profile in n.profile2_set.all %}
+                                <a href="{{ profile.link }}" class="about__social-icon" target='_blank'>
+                                    <i class='bx bxl-{{ profile.social_name }}' ></i>
+                                </a>
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+                
+            </section>
+            {% endif %}
+
+            <!--===== SKILLS =====-->
+            <section class="skills section" id="teams">
+                <h2 class="section-title">Official BL Teams</h2>
+
+                <div class="skills__container bd-grid">
+                    <div class="skills__box">
+                        {% for category in categories %}
+                        <h3 class="skills__subtitle">{{category.name}}</h3>
+                            {% for skills in category.skills_set.all %}
+                            
+                                <span class="skills__name">IGN: {{skills.skill_name}}</span>
+                            {% endfor %}
+                        {% endfor %}
+                        
+                    </div>
+
+                    <div class="skills__img">
+                        <img src="{% static 'assets/img/2.jpg' %}" alt="">
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+
+            <!--Tournaments-->
+
+            <section class="about section bd-grid" id="tour">
+                <h2 class="section-title">BloodLine Tournaments</h2>
+                <small><p style='text-align:center;'><i>Note that room links will be available 30min before starting time.</i></p></small><br>
+
+                {% for t in tourn %}
+
+                
+                    
+                    
+                
+                    
+
+                <div class="about__container">
+                <h2 style="text-align:left;" class="about__profession"><u>{{t.tp}}</u></h2>
+                    
+
+                    <div style="text-align:left;">
+                    <h2 class="about__subtitle"><b>#</b> {{ t.id }}</h2>
+                        <h2 class="about__subtitle"><b>Host:&nbsp;</b> {{ t.host }}</h2>
+                        <span class="about__profession"><b>Game Type:&nbsp;</b> {{ t.macth }}</span>
+                        <p class="about__text"><b>Details:&nbsp;</b> {{ t.details }}</p>
+                        <p class="about__text"><b>When:&nbsp;</b> {{ t.when }}</p>
+                        {% if t.room %}
+                        <p class="about__text"><b>Room URL:&nbsp;</b> <a style="color:green;" href="{{ t.room }}">ROOMLINK<a></p>
+                        {% else %}
+                        <p class="about__text" style="color:red;">No Room Link</p>
+                        {% endif %}
+                        
+            
+
+
+                        
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+            </section>
+            
+
+            
+            
+
+            
+            
+
+            
+
+            
+
+            <!--===== PORTFOLIO =====-->
+            <section class="portfolio section" id="videos">
+                <h2 class="section-title">Featured Videos</h2>
+
+                
+                <div class="portfolio__container bd-grid">
+
+                    {% for portfolio in portfolios %}
+                    
+                    <div class="portfolio__img">
+                        <img src="{{ portfolio.image.url }}" alt="">
+
+                        <div class="portfolio__link">
+                            <h1><a href="{{ portfolio.link }}" target='_blank' class="portfolio__link-name" style='color:black;'><i style='color:red;' class="bx bxl-youtube bx-flashing"></i>Play</a></h1>
+                        </div>
+                        <h2 class="about__text" style='text-align:center;'>{{portfolio.title}}</h2>
+                    </div>
+
+                    {% endfor %}
+                    
+                </div>
+                
+            </section>
+
+
+
+            <!--Results-->
+            <section class="about section" id="results">
+                <h2 class="section-title">Results</h2>
+                <small><p style="text-align:center;"><i>Some results of passed tournaments and scrims hosted by BloodLine</i></p></small><br>
+
+                <head>
+                    <style>
+                    table {
+                    border-radius:3px;
+                    border-collapse: collapse;
+                    width: 100%;
+                    background-color: var(--text-color);
+                    color: white;
+                    }
+
+                    td, th {
+                    border: 1px solid black;
+                    
+                    text-align: center;
+                    padding: 8px;
+                    }
+
+                    tr:nth-child(even) {
+                    background-color: var(--dark-color);
+                    color: white;
+                    }
+                    </style>
+                </head>
+
+                    <div class="about__text" style="justify-content:center; text-align:center;">
+                        
+                        <table>
+                            <tr>
+                                <th><b>Host</b></th>
+                                <th><b>Date</b></th>
+                                <th><b>Game Type</b></th>
+                                <th><b>Result</b></th>
+                            </tr>
+                            
+                            
+                            
+                           <tr>
+                            
+                            
+                            {%for r in results %}
+                                {% if r.name %}
+                                <td>{{ r.name }}</td>
+                                {% else %}
+                                <td>{{ r.game }}</td>
+                                {% endif %}
+                                
+                                <td>{{ r.when }}</td>
+                                <td>{{ r.gametype }}</td>
+                                
+                                <td>{{ r.result }}</td>
+                                
+                                
+                                
+                            
+                            </tr>
+                            {% endfor %}
+                      
+
+                                
+
+                            
+                            
+                        </table>
+                            
+                        
+                        
+                    
+
+                    
+                </div>
+            </section>
+                        
+
+             <!-- STORE -->
+            
+            
+            <section class="portfolio section" id="store">
+                <h2 class="section-title">STORE (COMING SOON!)</h2>
+                
+
+                
+                <div class="portfolio__container bd-grid">
+                {% for s in store %}
+
+                    
+                    
+                    <div class="portfolio__img" style="width:150px; height:200px;">
+                    <h2 class="about__text" style='text-align:center;'>{{s.name}}</h2>
+                        <img src="{{ s.image.url }}" alt="">
+
+                        <div class="portfolio__link">
+                            <h1><a href="{{ s.link }}" target='_blank' class="portfolio__link-name" style='color:black;'><i style='color:green;' class="bx bx-cart bx-flashing"></i>R {{s.price}}</a></h1>
+                        </div>
+                        
+                        
+                    </div>
+
+                    
+                {% endfor %}
+                    
+                </div>
+            </section>
+            
+            {% if not user.is_active %}
+            <!--===== CONTACT =====-->
+            <section class="contact section" id="contact">
+                <h2 class="section-title">Contact</h2>
+
+                <div class="contact__container bd-grid">
+                    <div class="contact__info" style="text-align:left;">
+                        <h3 class="contact__subtitle"><i class="bx bxl-discord"></i> Discord</h3>
+                        <span class="contact__text"><a style="color:blue;" href="#">Discord</a></span>
+
+                        <h3 class="contact__subtitle"><i class="bx bxl-whatsapp"></i> WhatsApp</h3>
+                        <span class="contact__text">+20 999-999</span>
+
+                       <!--- <h3 class="contact__subtitle">ADRESS</h3>
+                        <span class="contact__text">My contry</span> -->
+                    </div>
+
+                    <div class="contact__info" style="text-align:right;">
+
+                        
+
+                    </div>
+
+                    <!-- <form action="" class="contact__form">
+                        <div class="contact__inputs">
+                            <input type="text" placeholder="Name" class="contact__input">
+                            <input type="mail" placeholder="Email" class="contact__input">
+                        </div>
+
+                        <textarea name="" id="" cols="0" rows="10" class="contact__input"></textarea>
+
+                        <input type="submit" value="Enviar" class="contact__button">
+                    </form> -->
+                </div>
+            </section>
+            {% endif %}
+
+           
+
+        </main>
+
+        <!--===== FOOTER =====-->
+        <footer class="footer section" id='footer'>
+            <div class="footer__container bd-grid" style='text-align:center;'>
+                <div class="footer__data">
+                    <h2 class="footer__title">BLOODLINE :</h2>
+                    <p class="footer__text" style='color:white;'>STAY TUNED...</p>
+                </div>
+
+                
+                
+                <div class="footer__data">
+                    <h2 class="footer__title">FOLLOW US</h2>
+                    <a href="#" class="footer__social"><i class='bx bxl-facebook' ></i></a>
+                    <a href="#" class="footer__social"><i class='bx bxl-discord' ></i></a>
+                    <a href="#" class="footer__social"><i class='bx bxl-twitch' ></i></a>
+                </div>
+
+
+            </div>
+        </footer>
+
+        <!--===== SCROLL REVEAL =====-->
+        <script src="https://unpkg.com/scrollreveal"></script>
+
+        <!--===== MAIN JS =====-->
+        <script src="{% static 'assets/js/main.js' %}"></script>
+    </body>
+</html>

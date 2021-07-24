@@ -1,0 +1,39 @@
+{% extends 'account/base.html' %}
+
+
+{% block content %}
+<div>
+                    <a href="#" class="nav__logo">{{ home.name }}</a>
+                </div>
+
+
+<section class="portfolio section" id="videos">
+                <h2 class="section-title">STORE</h2>
+                {% for s in store %}
+
+                
+                <div class="portfolio__container bd-grid">
+
+                    
+                    
+                    <div class="portfolio__img">
+                        <img src="{{ s.image.url }}" alt="" style="width:200px; height:200px;">
+
+                        <div class="portfolio__link">
+                            <h1><a href="{{ s.link }}" target='_blank' class="portfolio__link-name" style='color:black;'><i style='color:green;' class="bx bx-cart bx-flashing"></i>Buy</a></h1>
+                        </div>
+                        <h2 class="about__text" style='text-align:center;'>{{s.name}}</h2>
+                        <h2 class="about__text" style='text-align:center;'>R {{s.price}}</h2>
+                    </div>
+
+                    
+                    
+                </div>
+                {% endfor %}
+            </section>
+
+
+
+
+
+{% endblock content %}
